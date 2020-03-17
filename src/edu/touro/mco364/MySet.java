@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MySet<T> implements Serializable, Set<T> {
+    T[] backingStore;
     @Override
     public int size() {
         return 0;
