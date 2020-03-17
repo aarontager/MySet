@@ -6,15 +6,17 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MySet<T> implements Serializable, Set<T> {
-    T[] backingStore;
+    T[] backingStore = (T[]) new Object[10];
+    int insertionPoint = 0;
+
     @Override
     public int size() {
-        return 0;
+        return insertionPoint + 1;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return insertionPoint == 0;
     }
 
     @Override
@@ -69,6 +71,7 @@ public class MySet<T> implements Serializable, Set<T> {
 
     @Override
     public void clear() {
-
+        backingStore = (T[]) new Object[10];
+        insertionPoint = 0;
     }
 }
