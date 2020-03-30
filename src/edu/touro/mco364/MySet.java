@@ -21,6 +21,11 @@ public class MySet<T> implements Serializable, Set<T> {
 
     @Override
     public boolean contains(Object o) {
+        for (int i = 0; i < insertionPoint; i++) {
+            if (o.equals(backingStore[i])) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -41,7 +46,12 @@ public class MySet<T> implements Serializable, Set<T> {
 
     @Override
     public boolean add(T t) {
-        return false;
+        if(contains(t))
+            return false;
+
+        ensureCapacity();
+        backingStore[insertionPoint++] = t;
+        return true;
     }
 
     @Override
@@ -73,5 +83,13 @@ public class MySet<T> implements Serializable, Set<T> {
     public void clear() {
         backingStore = (T[]) new Object[10];
         insertionPoint = 0;
+    }
+
+    private void ensureCapacity() {
+        if(insertionPoint == backingStore.length - 1) {
+            T[] tempArray = (T[]) new Object[backingStore.length * 2];
+            System.arraycopy(backingStore, 0, tempArray, 0, backingStore.length);
+            backingStore = tempArray;
+        }
     }
 }
