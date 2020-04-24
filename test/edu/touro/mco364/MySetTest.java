@@ -2,6 +2,7 @@ package edu.touro.mco364;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MySetTest {
     MySet<String> mySet = new MySet<String>();
+    MySet<String> mySet2 = new MySet<String>();
     Collection<String> coll = new ArrayList<String>();
 
     @Test
@@ -104,5 +106,43 @@ class MySetTest {
         mySet.clear();
 
         assertTrue(mySet.isEmpty());
+    }
+
+    @Test
+    void readWriteObject(){
+        coll.add("A");
+        coll.add("B");
+        coll.add("C");
+        mySet.addAll(coll);
+
+        try{
+            FileOutputStream fos = new FileOutputStream("rw_source.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(mySet);
+            oos.close();
+            fos.close();
+        }
+        catch(IOException exception){
+            exception.printStackTrace();
+        }
+
+        // --- --- ---
+
+
+        try{
+            FileInputStream fis = new FileInputStream("rw_source.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            mySet2 = (MySet<String>) ois.readObject();
+            ois.close();
+            fis.close();
+        }
+        catch(IOException exception){
+            exception.printStackTrace();
+        }
+        catch(ClassNotFoundException exception){
+            exception.printStackTrace();
+        }
+
+        assertTrue(mySet2.containsAll(coll));
     }
 }

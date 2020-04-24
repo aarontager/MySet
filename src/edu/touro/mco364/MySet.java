@@ -149,7 +149,7 @@ public class MySet<T> implements Serializable, Set<T> {
 
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.writeObject(backingStore);
-        out.writeObject(insertionPoint);
+        out.writeInt(insertionPoint);
     }
 
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
